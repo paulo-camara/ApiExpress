@@ -12,11 +12,11 @@ mongoose.connect(config.mongo_db, {
   console.log('error connect mongoDB', err)
 });
 
-let connection = mongoose.connection;
+// let connection = mongoose.connection;
 
-var ObjectID = require('mongodb').ObjectID;
+// var ObjectID = require('mongodb').ObjectID;
 
-connection.collection('users').insertOne({ _id: new ObjectID(), user: 'claudia', password: 123123 });
+// connection.collection('users').insertOne({ _id: new ObjectID(), user: 'claudia', password: 123123 });
 
 const app = express();
 
