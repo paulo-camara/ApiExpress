@@ -1,30 +1,26 @@
-import express from 'express';
-import mongoose from 'mongoose';
+import express from "express";
+import bodyParser from "body-parser";
 
-import { config } from './config';
-import { routes } from './routes';
+import { config } from "./config";
+import { routes } from "./routes";
 
-mongoose.connect(config.mongo_db, {
-  useNewUrlParser: true,
-}).then((res) => {
-  console.log('MongoDB connected');
-}).catch((err) => {
-  console.log('error connect mongoDB', err)
-});
-
-// let connection = mongoose.connection;
-
-// var ObjectID = require('mongodb').ObjectID;
-
-// connection.collection('users').insertOne({ _id: new ObjectID(), user: 'claudia', password: 123123 });
+import { OperationDataBase } from "./connection";
 
 const app = express();
 
-app.get(routes.login, (req, response, next) => {
-  const err = new Error('');
-  err.statusCode = 404;
+app.use(express.json());
 
-  next(err);
+app.post(routes.login, (request, response, next) => {
+  const { user, password, email } = request.body;
+
+  OperationDataBase("users", "insertOne", {
+    user: user,
+    password: password,
+    email: email,
+    createdAt: new Date()
+  });
+
+  response.send("hello word");
 });
 
 app.listen(config.port, () => {
