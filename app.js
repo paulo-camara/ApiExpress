@@ -1,26 +1,19 @@
 import express from "express";
-import bodyParser from "body-parser";
 
 import { config } from "./config";
 import { routes } from "./routes";
 
-import { OperationDataBase } from "./connection";
+//import das classes das rotas
+import { User } from './src/routes/User/User';
 
 const app = express();
-
 app.use(express.json());
 
-app.post(routes.login, (request, response, next) => {
-  const { user, password, email } = request.body;
+app.post(routes.createUser, (request, response, next) => {
+  const user = new User();
 
-  OperationDataBase("users", "insertOne", {
-    user: user,
-    password: password,
-    email: email,
-    createdAt: new Date()
-  });
-
-  response.send("hello word");
+  user.CreateUser(request)
+  response.status(200).send({ msg: "Success" });
 });
 
 app.listen(config.port, () => {
