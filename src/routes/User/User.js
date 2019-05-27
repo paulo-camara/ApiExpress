@@ -1,14 +1,14 @@
-import { OperationDataBase } from '../../../connection';
+import { OperationDataBase, FindInDataBase } from "../../../connection";
+import { connect } from "http2";
 
 export class User {
-    CreateUser(request) {
-        const { user, password, email } = request.body;
+  constructor(conn) {
+    this.conn = conn;
+  }
 
-        OperationDataBase("users", "insertOne", {
-            user: user,
-            password: password,
-            email: email,
-            createdAt: new Date()
-        });
-    }
+  async FindUser({user, email}) {
+    return this.conn.collection("users").findOne({
+      $and: [{ user }, { email }]
+    });
+  }
 }

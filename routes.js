@@ -1,3 +1,4 @@
 export const routes = {
-    createUser: '/createUser'
+    createUser: '/createUser',
+    findUser: '/findUser'
 }
